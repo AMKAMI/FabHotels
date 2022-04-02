@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fabhotels.entity.TransactionInfo;
+import com.fabhotels.entity.User;
 import com.fabhotels.messages.Message;
 import com.fabhotels.request.AddMoneyRequest;
 import com.fabhotels.request.TransferMoneyRequest;
@@ -89,9 +90,15 @@ public class UserController {
 
 	@PostMapping("/login")
 	public String userLogin(@RequestBody UserLoginRequest userLogin, HttpSession session) {
-		session.setAttribute(EMAIL, userLogin.getEmail());
-		log.info((String) session.getAttribute(EMAIL));
-		return "Success";
+
+		if (userService.isUser(userLogin.getEmail(), userLogin.getPassword())) {
+			session.setAttribute(EMAIL, userLogin.getEmail());
+			log.info((String) session.getAttribute(EMAIL));
+			return "Success";
+		}
+
+		else
+			return "Invalid UserName/Password";
 	}
 
 	@PostMapping("/addMoney")
@@ -113,10 +120,10 @@ public class UserController {
 	}
 
 	@GetMapping("/logout")
-	public String userLogin(HttpSession session) {
+	public User userLogin(HttpSession session) {
 		session.setAttribute(EMAIL, null);
 		log.info(EMAIL + " LOGGED OUT");
-		return "Logout Success";
+		return new User(null);
 
 	}
 
