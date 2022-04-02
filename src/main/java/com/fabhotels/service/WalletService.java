@@ -58,12 +58,12 @@ public class WalletService {
 		try {
 			wallet.setAmount(wallet.getAmount() + money);
 			walletRepository.save(wallet);
-			response.setError("No error");
-			response.setStatus("Success");
+			response.setError("");
+			response.setStatus(Message.SUCCESS);
 			transactionService.logTransaction(email, money, wallet.getAmount(), from, true);
 		} catch (Exception e) {
 			response.setError(e.toString());
-			response.setStatus("Failed");
+			response.setStatus(Message.FAILED);
 		}
 
 		return response;
