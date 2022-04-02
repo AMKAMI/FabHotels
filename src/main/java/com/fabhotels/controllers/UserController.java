@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fabhotels.entity.TransactionInfo;
-import com.fabhotels.entity.User;
 import com.fabhotels.messages.Message;
 import com.fabhotels.request.AddMoneyRequest;
 import com.fabhotels.request.TransferMoneyRequest;
@@ -58,7 +57,6 @@ public class UserController {
 			return response;
 
 		}
-
 	}
 
 	@PostMapping("/registration")
@@ -113,7 +111,7 @@ public class UserController {
 
 	}
 
-	@PostMapping("/signOut")
+	@GetMapping("/signOut")
 	public String userLogin(HttpSession session) {
 		if (session.getAttribute(EMAIL) != null) {
 			session.setAttribute(EMAIL, null);
@@ -175,7 +173,5 @@ public class UserController {
 			log.info("Exception in Transfer money is " + e);
 			return response;
 		}
-
 	}
-
 }

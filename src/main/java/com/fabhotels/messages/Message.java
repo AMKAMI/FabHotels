@@ -17,7 +17,10 @@ public class Message {
 	public static final String NO_USER;
 	public static final String INVALID_CREDENTIALS;
 	public static final String LOGGED_OUT;
-	
+	public static final String MONEY_ADDED_TO_WAALET;
+	public static final String MONEY_DEBITTED;
+	public static final String MONEY_CREDITTED;
+
 	static {
 		try {
 			prop = GetProperty.getProperty();
@@ -33,6 +36,8 @@ public class Message {
 		NO_USER = prop.getProperty("no_user");
 		INVALID_CREDENTIALS = prop.getProperty("invalid_username_password");
 		LOGGED_OUT = prop.getProperty("logged_out");
+		MONEY_ADDED_TO_WAALET = prop.getProperty("money_added_to_wallet");
+		MONEY_DEBITTED = prop.getProperty("money_transferred_to");
+		MONEY_CREDITTED = prop.getProperty("money_transferred_from");
 	}
-
 }
