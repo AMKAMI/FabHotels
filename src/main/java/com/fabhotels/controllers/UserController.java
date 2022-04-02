@@ -44,16 +44,6 @@ public class UserController {
 	@Autowired
 	TransactionService transactionService;
 
-//	@GetMapping("/getUsers")
-//	public List<UserResponse> getUsers() {
-//		List<User> userList = userService.getAllUsers();
-//		List<UserResponse> userResponseList = new ArrayList<>();
-//		userList.stream().forEach(user -> {
-//			userResponseList.add(new UserResponse(user));
-//		});
-//		return userResponseList;
-//	}
-
 	@GetMapping("/viewProfile")
 	public UserResponse getUser(HttpSession session) {
 		UserResponse response = new UserResponse();
@@ -91,14 +81,18 @@ public class UserController {
 	@PostMapping("/login")
 	public String userLogin(@RequestBody UserLoginRequest userLogin, HttpSession session) {
 
-		if (userService.isUser(userLogin.getEmail(), userLogin.getPassword())) {
-			session.setAttribute(EMAIL, userLogin.getEmail());
-			log.info((String) session.getAttribute(EMAIL));
-			return "Success";
-		}
+		try {
+			if (userService.isUser(userLogin.getEmail(), userLogin.getPassword())) {
+				session.setAttribute(EMAIL, userLogin.getEmail());
+				log.info((String) session.getAttribute(EMAIL));
+				return Message.SUCCESS;
+			}
 
-		else
-			return "Invalid UserName/Password";
+			else
+				return Message.INVALID_CREDENTIALS;
+		} catch (NullPointerException e) {
+			return Message.INVALID_CREDENTIALS;
+		}
 	}
 
 	@PostMapping("/addMoney")
@@ -119,12 +113,14 @@ public class UserController {
 
 	}
 
-	@GetMapping("/logout")
-	public User userLogin(HttpSession session) {
-		session.setAttribute(EMAIL, null);
-		log.info(EMAIL + " LOGGED OUT");
-		return new User(null);
-
+	@PostMapping("/signOut")
+	public String userLogin(HttpSession session) {
+		if (session.getAttribute(EMAIL) != null) {
+			session.setAttribute(EMAIL, null);
+			log.info(EMAIL + " LOGGED OUT");
+			return Message.LOGGED_OUT;
+		} else
+			return Message.TRY_LOGIN;
 	}
 
 	@PutMapping("/updateProfile")
@@ -169,7 +165,7 @@ public class UserController {
 		catch (NullPointerException ex) {
 			response.setError(Message.NO_USER);
 			response.setStatus(Message.FAILED);
-			log.info("Exception is "+ ex);
+			log.info("Exception is " + ex);
 			return response;
 		}
 
