@@ -10,9 +10,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name="transactions")
 public class TransactionInfo {
-
+	
 	public TransactionInfo(String email, String date, String transaction, double debit, double credit,
 			double balance) {
+		
 		this.email = email;
 		this.date = date;
 		this.transaction = transaction;

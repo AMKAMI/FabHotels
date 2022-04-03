@@ -2,11 +2,18 @@ package com.fabhotels.config;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Logger;
+
+import com.fabhotels.controllers.UserController;
 
 public class EncryptPassword {
+	
+	static Logger log = Logger.getLogger(UserController.class.getName());
 
 	public static String encrptPassword(String password) {
 
+		log.info("----------Password encryption----------");
+		
 		String encryptedpassword = null;
 		try {
 			MessageDigest m = MessageDigest.getInstance("MD5");
